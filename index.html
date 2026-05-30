@@ -534,6 +534,82 @@ footer {
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
 /* ═══════════════════════════════════════
+   TELA DE ENTRADA (gate)
+═══════════════════════════════════════ */
+#gate {
+  position: fixed; inset: 0; z-index: 1000;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 40px 32px;
+  background: var(--bg);
+  transition: opacity .9s ease;
+}
+#gate.fade-out { opacity: 0; pointer-events: none; }
+
+.gate-candles {
+  display: flex; gap: 20px; margin-bottom: 36px;
+  font-size: 32px;
+  filter: drop-shadow(0 0 12px rgba(206,126,215,0.6));
+  animation: float 5s ease-in-out infinite;
+}
+.gate-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(28px, 6vw, 52px);
+  color: var(--purple-light);
+  letter-spacing: .2em; line-height: 1.2;
+  text-shadow: 0 0 40px rgba(206,126,215,0.4);
+  margin-bottom: 12px;
+}
+.gate-subtitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(11px, 2vw, 14px);
+  letter-spacing: .4em; text-transform: uppercase;
+  color: var(--purple-dark); margin-bottom: 32px;
+}
+.gate-divider {
+  display: flex; align-items: center; gap: 18px;
+  width: min(480px, 90%); margin: 0 auto 40px;
+}
+.gate-divider-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(to right, transparent, var(--purple-deeper), transparent);
+}
+.gate-divider-diamond {
+  width: 6px; height: 6px;
+  background: var(--purple-dark); transform: rotate(45deg); flex-shrink: 0;
+}
+.gate-text {
+  font-family: 'IM Fell English', serif; font-style: italic;
+  font-size: clamp(16px, 2.5vw, 21px);
+  color: var(--text-sub); max-width: 560px; line-height: 1.85;
+  margin-bottom: 10px;
+}
+.gate-hashtag {
+  font-family: 'Cinzel', serif; font-size: 13px;
+  letter-spacing: .3em; color: var(--purple-muted);
+  margin-bottom: 52px;
+}
+.gate-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 13px; letter-spacing: .4em; text-transform: uppercase;
+  color: var(--purple-light);
+  background: rgba(206,126,215,0.08);
+  border: 1px solid var(--border-strong);
+  padding: 18px 52px; cursor: pointer;
+  transition: background .3s, box-shadow .3s, transform .2s;
+  position: relative; overflow: hidden;
+}
+.gate-btn::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(206,126,215,0.15), transparent);
+  opacity: 0; transition: opacity .3s;
+}
+.gate-btn:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(206,126,215,0.2); }
+.gate-btn:hover::before { opacity: 1; }
+.gate-btn:active { transform: translateY(0); }
+
+/* ═══════════════════════════════════════
    RESPONSIVO — mobile
 ═══════════════════════════════════════ */
 @media (max-width: 700px) {
@@ -546,6 +622,24 @@ footer {
   </style>
 </head>
 <body>
+
+<!-- ═══════ TELA DE ENTRADA ═══════ -->
+<div id="gate">
+  <div class="gate-candles">🕯️ 🏴‍☠️ 🕯️</div>
+  <h1 class="gate-title">SPCP</h1>
+  <p class="gate-subtitle">Surubão pros Chapéus de Palha</p>
+  <div class="gate-divider">
+    <div class="gate-divider-line"></div>
+    <div class="gate-divider-diamond"></div>
+    <div class="gate-divider-line"></div>
+  </div>
+  <p class="gate-text">
+    Bem-vindo ao memorial do <em>Surubão pros Chapéus de Palha</em> (SPCP).<br>
+    Veja a história e trajetória deste grupo cancelado.
+  </p>
+  <p class="gate-hashtag">#Luto</p>
+  <button class="gate-btn" id="gateBtn">Entrar na Suruba</button>
+</div>
 
 <!-- ═══════ NAVEGAÇÃO ═══════ -->
 <nav id="nav">
@@ -891,22 +985,12 @@ function updateVolume() {
 }
 updateVolume();
 
-// Tenta tocar assim que o usuário faz qualquer interação com a página.
-// Navegadores bloqueiam áudio automático sem interação — essa é a solução padrão.
-function tryAutoPlay() {
+function startMusic() {
   if (!audio.querySelector('source') || !audio.paused) return;
   audio.play()
     .then(() => { playBtn.textContent = '⏸'; })
-    .catch(() => {}); // silencia erro caso o navegador ainda bloqueie
-  document.removeEventListener('click',      tryAutoPlay);
-  document.removeEventListener('touchstart', tryAutoPlay);
-  document.removeEventListener('keydown',    tryAutoPlay);
-  document.removeEventListener('scroll',     tryAutoPlay);
+    .catch(() => {});
 }
-document.addEventListener('click',      tryAutoPlay, { once: true });
-document.addEventListener('touchstart', tryAutoPlay, { once: true });
-document.addEventListener('keydown',    tryAutoPlay, { once: true });
-document.addEventListener('scroll',     tryAutoPlay, { once: true, passive: true });
 
 // Botão manual — pausa e retoma normalmente
 playBtn.addEventListener('click', () => {
@@ -928,6 +1012,23 @@ playBtn.addEventListener('click', () => {
 });
 
 volSlider.addEventListener('input', updateVolume);
+
+/* ═══════════════════════════════════════
+   TELA DE ENTRADA — gate
+═══════════════════════════════════════ */
+const gate    = document.getElementById('gate');
+const gateBtn = document.getElementById('gateBtn');
+
+gateBtn.addEventListener('click', () => {
+  // O clique do usuário garante permissão do navegador para tocar áudio
+  startMusic();
+
+  // Fade out suave da tela de entrada
+  gate.classList.add('fade-out');
+
+  // Remove do DOM após a transição terminar (economiza memória)
+  gate.addEventListener('transitionend', () => gate.remove(), { once: true });
+});
 </script>
 </body>
 </html>
