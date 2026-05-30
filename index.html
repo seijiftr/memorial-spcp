@@ -891,6 +891,24 @@ function updateVolume() {
 }
 updateVolume();
 
+// Tenta tocar assim que o usuário faz qualquer interação com a página.
+// Navegadores bloqueiam áudio automático sem interação — essa é a solução padrão.
+function tryAutoPlay() {
+  if (!audio.querySelector('source') || !audio.paused) return;
+  audio.play()
+    .then(() => { playBtn.textContent = '⏸'; })
+    .catch(() => {}); // silencia erro caso o navegador ainda bloqueie
+  document.removeEventListener('click',      tryAutoPlay);
+  document.removeEventListener('touchstart', tryAutoPlay);
+  document.removeEventListener('keydown',    tryAutoPlay);
+  document.removeEventListener('scroll',     tryAutoPlay);
+}
+document.addEventListener('click',      tryAutoPlay, { once: true });
+document.addEventListener('touchstart', tryAutoPlay, { once: true });
+document.addEventListener('keydown',    tryAutoPlay, { once: true });
+document.addEventListener('scroll',     tryAutoPlay, { once: true, passive: true });
+
+// Botão manual — pausa e retoma normalmente
 playBtn.addEventListener('click', () => {
   const hasSource = audio.querySelector('source');
   if (!hasSource) {
