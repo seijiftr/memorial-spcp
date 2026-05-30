@@ -2,7 +2,7 @@
 
 > *"Viemos fazendo graça, fomos também fazendo graça"*
 
-Memorial online da comunidade **SPCP** — um servidor dedicado a One Piece, animes, jogos e muita putaria. Tudo infelizmente tem seu fim, mas a memória fica.
+Memorial online da comunidade **SPCP** — um grupo dedicado a One Piece, resenha e muito +18.
 
 ---
 
