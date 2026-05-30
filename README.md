@@ -1,4 +1,3 @@
-[README.md](https://github.com/user-attachments/files/28415002/README.md)
 # 🏴‍☠️ SPCP — Surubão pros Chapéus de Palha
 
 > *"Viemos fazendo graça, fomos também fazendo graça"*
