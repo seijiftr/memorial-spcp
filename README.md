@@ -7,13 +7,6 @@ Memorial online da comunidade **SPCP** — um servidor dedicado a One Piece, ani
 
 ---
 
-## 🌐 Acessar o site
-
-**[seuusuario.github.io/spcp-memorial](https://seuusuario.github.io/spcp-memorial)**  
-*(substitua `seuusuario` pelo seu username do GitHub)*
-
----
-
 ## 📁 Estrutura do projeto
 
 ```
