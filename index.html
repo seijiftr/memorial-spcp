@@ -1,33 +1,40 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SPCP — Memorial</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
-<style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SPCP — Memorial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+
+/* ═══════════════════════════════════════
+   VARIÁVEIS GLOBAIS
+═══════════════════════════════════════ */
 :root {
-  --purple: #CE7ED7;
-  --purple-light: #e4aee9;
-  --purple-dark: #9a50a5;
+  --purple:        #CE7ED7;
+  --purple-light:  #e4aee9;
+  --purple-dark:   #9a50a5;
   --purple-deeper: #6b2e74;
-  --purple-muted: #b87ac0;
-  --bg: #0e080f;
-  --bg-mid: #160d18;
-  --bg-surface: #1e1121;
-  --text-main: #f0e4f2;
-  --text-sub: #d4b8d8;
-  --text-muted: #a888b0;
-  --border: rgba(206,126,215,0.2);
+  --purple-muted:  #b87ac0;
+  --bg:            #0e080f;
+  --bg-mid:        #160d18;
+  --bg-surface:    #1e1121;
+  --text-main:     #f0e4f2;
+  --text-sub:      #d4b8d8;
+  --text-muted:    #a888b0;
+  --border:        rgba(206,126,215,0.2);
   --border-strong: rgba(206,126,215,0.45);
-  --glow: rgba(206,126,215,0.15);
 }
 
-* { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior:smooth; }
-section[id], div[id] { scroll-margin-top: 72px; }
+/* ═══════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
 body {
   background: var(--bg);
   color: var(--text-main);
@@ -37,391 +44,417 @@ body {
   overflow-x: hidden;
 }
 
-/* ── PARTICLES ── */
-.stars { position:fixed; inset:0; pointer-events:none; z-index:0; }
-.star {
-  position:absolute; border-radius:50%;
-  animation: twinkle var(--d) ease-in-out infinite;
-}
+/* scroll-margin compensa a nav fixa ao clicar em âncoras */
+section[id] { scroll-margin-top: 72px; }
+
+/* ═══════════════════════════════════════
+   EFEITOS DE FUNDO
+═══════════════════════════════════════ */
+
+/* Estrelas geradas via JS */
+.stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+.star  { position: absolute; border-radius: 50%; animation: twinkle var(--d) ease-in-out infinite; }
+
 @keyframes twinkle {
-  0%,100% { opacity:var(--min-o); transform:scale(1); }
-  50%      { opacity:var(--max-o); transform:scale(1.5); }
+  0%, 100% { opacity: var(--min-o); transform: scale(1); }
+  50%       { opacity: var(--max-o); transform: scale(1.5); }
 }
 
-/* ── VIGNETTE ── */
-body::after {
-  content:'';
-  position:fixed; inset:0; z-index:1;
+/* Vinheta escurecendo as bordas */
+.vignette {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none;
   background: radial-gradient(ellipse at center, transparent 40%, rgba(14,8,15,0.7) 100%);
-  pointer-events:none;
 }
 
-/* ── OCEAN ── */
-.ocean { position:fixed; bottom:0; left:0; width:100%; height:160px; pointer-events:none; z-index:2; overflow:hidden; }
-.wave { position:absolute; bottom:0; left:-100%; width:300%; height:100%; }
-.wave svg { width:100%; height:100%; }
-.wave1 { animation:wv 14s linear infinite; opacity:.18; }
-.wave2 { animation:wv 20s linear infinite reverse; opacity:.10; bottom:-15px; }
-.wave3 { animation:wv 9s linear infinite; opacity:.06; bottom:-35px; }
-@keyframes wv { from{transform:translateX(0)} to{transform:translateX(33.33%)} }
+/* Ondas no rodapé */
+.ocean { position: fixed; bottom: 0; left: 0; width: 100%; height: 160px; pointer-events: none; z-index: 2; overflow: hidden; }
+.wave  { position: absolute; bottom: 0; left: -100%; width: 300%; height: 100%; }
+.wave svg { width: 100%; height: 100%; }
+.wave1 { animation: wave  8s linear infinite;          opacity: .18; }
+.wave2 { animation: wave 12s linear infinite reverse;  opacity: .10; bottom: -15px; }
+.wave3 { animation: wave  5s linear infinite;          opacity: .06; bottom: -35px; }
 
-/* ── NAV ── */
+@keyframes wave { from { transform: translateX(0); } to { transform: translateX(33.33%); } }
+
+/* ═══════════════════════════════════════
+   NAVEGAÇÃO
+═══════════════════════════════════════ */
 nav {
-  position:fixed; top:0; left:0; right:0; z-index:200;
-  padding:.9rem 2.5rem;
-  display:flex; align-items:center; justify-content:space-between;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  padding: 16px 45px;
+  display: flex; align-items: center; justify-content: space-between;
   background: linear-gradient(to bottom, rgba(14,8,15,.97), transparent);
-  transition: background .4s, border-color .4s;
+  transition: background .4s;
 }
 nav.scrolled {
   background: rgba(14,8,15,.97);
   border-bottom: 1px solid var(--border);
 }
 .nav-logo {
-  font-family:'Cinzel Decorative',serif; font-size:1rem;
-  color:var(--purple-light); letter-spacing:.25em; text-decoration:none;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 18px; letter-spacing: .25em;
+  color: var(--purple-light); text-decoration: none;
 }
-.nav-links { display:flex; gap:2.5rem; list-style:none; }
+.nav-links { display: flex; gap: 45px; list-style: none; }
 .nav-links a {
-  font-family:'Cinzel',serif; font-size:.68rem; letter-spacing:.28em;
-  text-transform:uppercase; color:var(--text-muted); text-decoration:none;
-  transition: color .25s, opacity .25s;
+  font-family: 'Cinzel', serif;
+  font-size: 12px; letter-spacing: .28em; text-transform: uppercase;
+  color: var(--text-muted); text-decoration: none;
+  transition: color .25s;
 }
-.nav-links a:hover { color:var(--purple-light); opacity:1; }
+.nav-links a:hover { color: var(--purple-light); }
 
-/* ── AUDIO PLAYER ── */
+/* ═══════════════════════════════════════
+   PLAYER DE ÁUDIO
+═══════════════════════════════════════ */
 .audio-player {
-  display:flex; align-items:center; gap:.6rem;
+  display: flex; align-items: center; gap: 11px;
+  padding: 6px 16px 6px 11px;
   background: rgba(206,126,215,0.08);
   border: 1px solid var(--border);
   border-radius: 30px;
-  padding: .35rem .9rem .35rem .6rem;
   backdrop-filter: blur(4px);
 }
 .audio-btn {
-  background:none; border:none; cursor:pointer;
-  color:var(--purple-light); font-size:1rem; line-height:1;
-  display:flex; align-items:center; padding:.1rem;
+  background: none; border: none; cursor: pointer;
+  color: var(--purple-light); font-size: 18px; line-height: 1;
+  display: flex; align-items: center; padding: 2px;
   transition: color .2s, transform .15s;
 }
-.audio-btn:hover { color:var(--purple); transform:scale(1.15); }
+.audio-btn:hover { color: var(--purple); transform: scale(1.15); }
 .audio-label {
-  font-family:'Cinzel',serif; font-size:.6rem; letter-spacing:.2em;
-  color:var(--text-muted); text-transform:uppercase; white-space:nowrap;
+  font-family: 'Cinzel', serif;
+  font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--text-muted); white-space: nowrap;
 }
-.volume-wrap { display:flex; align-items:center; gap:.4rem; }
-.volume-icon { font-size:.75rem; color:var(--text-muted); }
-input[type=range].vol {
-  -webkit-appearance:none; appearance:none;
-  width:72px; height:3px;
-  background: linear-gradient(to right, var(--purple) var(--pct,40%), rgba(206,126,215,0.2) var(--pct,40%));
-  border-radius:2px; cursor:pointer; outline:none;
+.volume-wrap { display: flex; align-items: center; gap: 7px; }
+.volume-icon  { font-size: 13px; color: var(--text-muted); }
+
+input[type="range"].vol {
+  -webkit-appearance: none; appearance: none;
+  width: 72px; height: 3px; border-radius: 2px;
+  background: linear-gradient(to right, var(--purple) var(--pct, 40%), rgba(206,126,215,0.2) var(--pct, 40%));
+  cursor: pointer; outline: none;
 }
-input[type=range].vol::-webkit-slider-thumb {
-  -webkit-appearance:none; width:10px; height:10px;
-  border-radius:50%; background:var(--purple-light); cursor:pointer;
-  box-shadow:0 0 6px rgba(206,126,215,0.5);
+input[type="range"].vol::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--purple-light); cursor: pointer;
+  box-shadow: 0 0 6px rgba(206,126,215,0.5);
 }
 
-/* ── HERO ── */
+/* ═══════════════════════════════════════
+   HERO
+═══════════════════════════════════════ */
 .hero {
-  position:relative; z-index:3;
-  min-height:100vh;
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  text-align:center; padding:7rem 2rem 6rem;
+  position: relative; z-index: 3;
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 126px 36px 108px;
 }
 
 .memorial-flame {
-  font-size:2.8rem; margin-bottom:1.5rem;
-  animation: flicker 3s ease-in-out infinite;
+  font-size: 50px; margin-bottom: 24px;
   filter: drop-shadow(0 0 18px rgba(206,126,215,0.6));
+  animation: float 5s ease-in-out infinite;
 }
 @keyframes flicker {
-  0%,100% { transform:scale(1) rotate(-2deg); opacity:.9; }
-  30%      { transform:scale(1.06) rotate(1deg); opacity:1; }
-  60%      { transform:scale(.97) rotate(-1deg); opacity:.85; }
+  0%, 100% { transform: scale(1)    rotate(-2deg); opacity: .90; }
+  30%       { transform: scale(1.06) rotate( 1deg); opacity: 1;   }
+  60%       { transform: scale(.97)  rotate(-1deg); opacity: .85; }
 }
 
 .hero-sigla {
-  font-family:'Cinzel Decorative',serif;
-  font-size: clamp(3.5rem,11vw,8rem);
-  font-weight:900; letter-spacing:.3em; line-height:1;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(56px, 11vw, 128px);
+  font-weight: 900; letter-spacing: .3em; line-height: 1;
   color: var(--purple-light);
-  text-shadow:
-    0 0 40px rgba(206,126,215,0.5),
-    0 0 100px rgba(206,126,215,0.2);
+  text-shadow: 0 0 40px rgba(206,126,215,0.5), 0 0 100px rgba(206,126,215,0.2);
   animation: fadeDown 1.4s ease .1s both;
 }
-
 .hero-full-name {
-  font-family:'Cinzel',serif;
-  font-size: clamp(.8rem,2.8vw,1.2rem);
-  color: var(--text-sub);
-  letter-spacing:.22em; text-transform:uppercase;
-  margin-top:.75rem;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(14px, 2.8vw, 22px);
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--text-sub); margin-top: 14px; opacity: .85;
   animation: fadeDown 1.4s ease .3s both;
-  opacity:.85;
 }
-
-/* candles line */
 .hero-candles {
-  display:flex; align-items:center; gap:1.2rem;
-  margin:2.2rem auto;
+  display: flex; align-items: center; gap: 22px;
+  margin: 40px auto;
   animation: fadeDown 1.4s ease .5s both;
 }
-.candle { font-size:1.4rem; filter:drop-shadow(0 0 8px rgba(206,126,215,0.5)); }
-.hero-divider-line { flex:1; height:1px; background:linear-gradient(to right,transparent,var(--purple-deeper),var(--purple-dark),var(--purple-deeper),transparent); }
-
+.candle { font-size: 25px; filter: drop-shadow(0 0 8px rgba(206,126,215,0.5)); }
+.hero-divider-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(to right, transparent, var(--purple-deeper), var(--purple-dark), var(--purple-deeper), transparent);
+}
 .hero-tagline {
-  font-family:'IM Fell English',serif; font-style:italic;
-  font-size: clamp(1rem,2.8vw,1.4rem);
-  color: var(--text-sub);
-  max-width:620px; line-height:1.65;
+  font-family: 'IM Fell English', serif; font-style: italic;
+  font-size: clamp(18px, 2.8vw, 25px);
+  color: var(--text-sub); max-width: 620px; line-height: 1.65;
   animation: fadeDown 1.4s ease .7s both;
 }
-
-.hero-dates {
-  font-family:'Cinzel',serif; font-size:.8rem;
-  color: var(--purple-dark); letter-spacing:.22em;
-  margin-top:2rem;
-  animation: fadeDown 1.4s ease .9s both;
-}
-
-/* R.I.P. plaque */
 .rip-plaque {
-  margin-top:2.5rem;
-  border:1px solid var(--border-strong);
-  border-top:3px solid var(--purple);
-  padding:1.2rem 2.5rem;
-  display:inline-block;
+  margin-top: 45px;
+  padding: 22px 45px;
+  display: inline-block;
   background: linear-gradient(135deg, rgba(206,126,215,0.07), rgba(206,126,215,0.02));
+  border: 1px solid var(--border-strong);
+  border-top: 3px solid var(--purple);
   animation: fadeDown 1.4s ease 1.1s both;
 }
 .rip-text {
-  font-family:'Cinzel',serif; font-size:.75rem; letter-spacing:.5em;
-  text-transform:uppercase; color:var(--purple-muted);
+  font-family: 'Cinzel', serif;
+  font-size: 13px; letter-spacing: .5em; text-transform: uppercase;
+  color: var(--purple-muted);
 }
-
 .scroll-cue {
-  position:absolute; bottom:2.5rem; left:50%; transform:translateX(-50%);
+  position: absolute; bottom: 45px; left: 50%; transform: translateX(-50%);
+  font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: .3em; text-transform: uppercase;
+  color: var(--purple-dark);
   animation: bounce 2.2s ease-in-out infinite, fadeDown 2s ease 2s both;
-  color:var(--purple-dark); font-size:1.2rem;
-  font-family:'Cinzel',serif; font-size:.65rem; letter-spacing:.3em;
-  text-transform:uppercase;
 }
-@keyframes bounce  { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(7px)} }
-@keyframes fadeDown{ from{opacity:0;transform:translateY(-18px)} to{opacity:1;transform:translateY(0)} }
 
-/* ── SECTION BASE ── */
-.section { position:relative; z-index:3; padding:6rem 2rem; max-width:1050px; margin:0 auto; }
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0);  }
+  50%       { transform: translateX(-50%) translateY(7px); }
+}
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-18px); }
+  to   { opacity: 1; transform: translateY(0);     }
+}
 
-.section-header { text-align:center; margin-bottom:3.5rem; }
+/* ═══════════════════════════════════════
+   SEÇÕES — base compartilhada
+═══════════════════════════════════════ */
+.section {
+  position: relative; z-index: 3;
+  padding: 108px 36px; max-width: 1050px; margin: 0 auto;
+}
+.section-header { text-align: center; margin-bottom: 63px; }
 .section-label {
-  font-family:'Cinzel',serif; font-size:.66rem; letter-spacing:.45em;
-  text-transform:uppercase; color:var(--purple-dark); margin-bottom:.6rem; display:block;
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 12px; letter-spacing: .45em; text-transform: uppercase;
+  color: var(--purple-dark); margin-bottom: 11px;
 }
 .section-title {
-  font-family:'Cinzel Decorative',serif;
-  font-size:clamp(1.4rem,4vw,2.3rem);
-  color:var(--purple-light); line-height:1.25;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(25px, 4vw, 41px);
+  color: var(--purple-light); line-height: 1.25;
 }
 .section-rule {
-  display:block; width:60px; height:1px;
+  display: block; width: 60px; height: 1px;
   background: linear-gradient(to right, transparent, var(--purple-dark), transparent);
-  margin:1.2rem auto 0;
+  margin: 22px auto 0;
 }
 
-/* ── FULL DIVIDER ── */
+/* ═══════════════════════════════════════
+   DIVISOR DECORATIVO
+═══════════════════════════════════════ */
 .full-divider {
-  position:relative; z-index:3; width:100%;
-  text-align:center; padding:.8rem 0; overflow:hidden;
+  position: relative; z-index: 3;
+  text-align: center; padding: 14px 0; overflow: hidden;
 }
 .full-divider::before {
-  content:''; position:absolute; top:50%; left:0; right:0; height:1px;
-  background:linear-gradient(to right,transparent 0%,var(--purple-deeper) 20%,var(--purple-dark) 50%,var(--purple-deeper) 80%,transparent 100%);
-  transform:translateY(-50%);
+  content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px;
+  background: linear-gradient(to right, transparent 0%, var(--purple-deeper) 20%, var(--purple-dark) 50%, var(--purple-deeper) 80%, transparent 100%);
+  transform: translateY(-50%);
 }
 .full-divider-icon {
-  position:relative; display:inline-block;
-  background:var(--bg); padding:0 1.5rem;
-  color:var(--purple); font-size:1.1rem;
-  font-family:'Cinzel',serif; font-size:.7rem; letter-spacing:.3em;
+  position: relative; display: inline-block;
+  padding: 0 27px; background: var(--bg);
+  font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: .3em;
+  color: var(--purple);
 }
 
-/* ── MANIFESTO ── */
-.manifesto-box {
-  border:1px solid var(--border);
-  border-left:3px solid var(--purple);
-  background: linear-gradient(135deg, rgba(206,126,215,0.06), rgba(206,126,215,0.01));
-  padding:3rem 3.5rem;
-  max-width:800px; margin:0 auto;
-  position:relative;
-}
-.manifesto-box::before {
-  content:'"'; font-family:'Cinzel Decorative',serif; font-size:8rem;
-  color:var(--purple-deeper); opacity:.4; position:absolute; top:-1rem; left:1rem; line-height:1;
-}
-.manifesto-text {
-  font-family:'IM Fell English',serif; font-style:italic;
-  font-size:clamp(1.05rem,2.5vw,1.3rem);
-  color:var(--text-sub); line-height:2; position:relative; z-index:1;
-}
-
-/* ── PILLARS ── */
-.pillars-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:1.5rem; }
-.pillar-card {
-  background: var(--bg-surface);
-  border:1px solid var(--border);
-  border-top:2px solid var(--purple-deeper);
-  padding:2rem 1.75rem; text-align:center;
-  transition: border-color .3s, background .3s, transform .3s;
-  position:relative; overflow:hidden;
-}
-.pillar-card::after {
-  content:''; position:absolute; inset:0;
-  background:linear-gradient(135deg, rgba(206,126,215,0.06), transparent);
-  opacity:0; transition:opacity .3s;
-}
-.pillar-card:hover { transform:translateY(-3px); border-color:var(--border-strong); }
-.pillar-card:hover::after { opacity:1; }
-.pillar-icon { font-size:2rem; margin-bottom:.8rem; display:block; }
-.pillar-title { font-family:'Cinzel',serif; font-size:.88rem; color:var(--purple-light); letter-spacing:.12em; margin-bottom:.6rem; }
-.pillar-desc { font-size:.9rem; color:var(--text-muted); line-height:1.6; }
-
-/* ── LORE SCROLL ── */
+/* ═══════════════════════════════════════
+   HISTÓRIA — lore scroll
+═══════════════════════════════════════ */
 .lore-scroll {
-  border-left:2px solid var(--purple-deeper);
-  padding:2.5rem 2.5rem 2.5rem 3.5rem;
-  max-width:800px; margin:0 auto;
-  position:relative;
+  position: relative;
+  max-width: 800px; margin: 0 auto;
+  padding: 45px 45px 45px 63px;
+  border-left: 2px solid var(--purple-deeper);
   background: linear-gradient(to right, rgba(206,126,215,0.04), transparent);
 }
 .lore-scroll::before {
-  content:''; position:absolute; left:-5px; top:2rem; bottom:2rem; width:8px;
-  background:linear-gradient(to bottom,transparent,var(--purple-deeper),var(--purple),var(--purple-deeper),transparent);
-  border-radius:4px;
+  content: ''; position: absolute; left: -5px; top: 36px; bottom: 36px; width: 8px;
+  background: linear-gradient(to bottom, transparent, var(--purple-deeper), var(--purple), var(--purple-deeper), transparent);
+  border-radius: 4px;
 }
-.lore-paragraph { font-size:clamp(1rem,2.2vw,1.15rem); color:var(--text-sub); margin-bottom:1.75rem; line-height:1.9; }
-.lore-paragraph:last-child { margin-bottom:0; }
-.lore-highlight { color:var(--purple-light); font-family:'IM Fell English',serif; font-style:italic; }
+.lore-paragraph {
+  font-size: clamp(18px, 2.2vw, 21px);
+  color: var(--text-sub); line-height: 1.9; margin-bottom: 28px;
+}
+.lore-paragraph:last-child { margin-bottom: 0; }
+.lore-highlight {
+  color: var(--purple-light);
+  font-family: 'IM Fell English', serif; font-style: italic;
+}
 
-/* ── THEORY CARDS ── */
-.theory-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:1.25rem; }
+/* ═══════════════════════════════════════
+   MOMENTOS MARCANTES
+═══════════════════════════════════════ */
+.theory-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 22px; }
 .theory-card {
-  border:1px solid var(--border); padding:1.75rem;
-  background:var(--bg-surface); transition:transform .3s, border-color .3s;
+  padding: 32px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  transition: transform .3s, border-color .3s;
 }
-.theory-card:hover { transform:translateY(-3px); border-color:var(--border-strong); }
-.theory-tag {
-  font-family:'Cinzel',serif; font-size:.62rem; letter-spacing:.28em;
-  text-transform:uppercase; padding:.25rem .65rem;
-  border:1px solid currentColor; display:inline-block; margin-bottom:.9rem;
-}
-.theory-tag.serious { color:var(--purple-light); }
-.theory-tag.fun     { color:#9dd5e8; border-color:#9dd5e8; }
-.theory-tag.debate  { color:#d4939a; border-color:#d4939a; }
-.theory-title { font-family:'Cinzel',serif; font-size:.9rem; color:var(--text-main); margin-bottom:.6rem; line-height:1.35; }
-.theory-body  { font-size:.88rem; color:var(--text-muted); line-height:1.6; }
+.theory-card:hover { transform: translateY(-3px); border-color: var(--border-strong); }
 
-/* ── TRIBUTE WALL ── */
+.theory-tag {
+  display: inline-block; margin-bottom: 16px;
+  padding: 4px 12px;
+  font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: .28em; text-transform: uppercase;
+  border: 1px solid currentColor;
+}
+.theory-tag.serious { color: var(--purple-light); }
+.theory-tag.fun     { color: #9dd5e8; }
+.theory-tag.debate  { color: #d4939a; }
+
+.theory-title {
+  font-family: 'Cinzel', serif; font-size: 17px;
+  color: var(--text-main); line-height: 1.35; margin-bottom: 10px;
+}
+.theory-body { font-size: 16px; color: var(--text-muted); line-height: 1.7; }
+
+/* ═══════════════════════════════════════
+   TRIPULAÇÃO
+═══════════════════════════════════════ */
 .tribute-wall {
-  display:grid; grid-template-columns:repeat(auto-fit,minmax(155px,1fr));
-  border:1px solid var(--border); background:rgba(206,126,215,0.04);
-  gap:1px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 2px;
+  background: rgba(206,126,215,0.06);
+  border: 1px solid var(--border);
 }
 .tribute-member {
-  padding:1.75rem 1.25rem; text-align:center;
-  background:var(--bg); transition:background .3s;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 40px 24px 32px; text-align: center;
+  background: var(--bg);
+  transition: background .3s, transform .3s;
 }
-.tribute-member:hover { background:var(--bg-surface); }
+.tribute-member:hover { background: var(--bg-surface); transform: translateY(-3px); }
+
 .member-avatar {
-  width:68px; height:68px; border-radius:50%;
-  background:var(--bg-mid); border:2px solid var(--purple-deeper);
-  display:flex; align-items:center; justify-content:center;
-  margin:0 auto .75rem;
-  font-family:'Cinzel',serif; font-size:1rem; color:var(--purple-light);
-  overflow:hidden; position:relative; flex-shrink:0;
-  transition: border-color .3s;
+  width: 110px; height: 110px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px; flex-shrink: 0; overflow: hidden;
+  background: var(--bg-mid);
+  border: 3px solid var(--purple-deeper);
+  box-shadow: 0 0 20px rgba(206,126,215,0.15);
+  font-family: 'Cinzel', serif; font-size: 28px; color: var(--purple-light);
+  transition: border-color .3s, box-shadow .3s;
 }
-.member-avatar img {
-  width:100%; height:100%; object-fit:cover;
-  border-radius:50%; display:block;
+.tribute-member:hover .member-avatar {
+  border-color: var(--purple-muted);
+  box-shadow: 0 0 30px rgba(206,126,215,0.35);
 }
-.tribute-member:hover .member-avatar { border-color:var(--purple-muted); }
-.member-name { font-family:'Cinzel',serif; font-size:.75rem; color:var(--text-main); letter-spacing:.1em; margin-bottom:.3rem; }
-.member-role { font-size:.72rem; color:var(--text-muted); font-style:italic; }
+.member-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-/* ── MEMORIAL EPITAPH (legado) ── */
+.member-name {
+  font-family: 'Cinzel', serif; font-size: 15px; letter-spacing: .1em;
+  color: var(--text-main); margin-bottom: 6px;
+}
+.member-role {
+  font-size: 14px; font-style: italic;
+  color: var(--text-muted); line-height: 1.5; max-width: 180px;
+}
+.crew-note {
+  text-align: center; margin-top: 32px;
+  font-family: 'IM Fell English', serif; font-style: italic;
+  font-size: 17px; color: var(--text-muted);
+}
+
+/* ═══════════════════════════════════════
+   LEGADO — epitáfio
+═══════════════════════════════════════ */
 .epitaph {
-  border:1px solid var(--border);
-  border-top:2px solid var(--purple);
-  border-bottom:2px solid var(--purple);
+  position: relative;
+  max-width: 780px; margin: 0 auto;
+  padding: 54px 63px; text-align: center;
   background: var(--bg-surface);
-  padding:3rem 3.5rem;
-  max-width:780px; margin:0 auto;
-  text-align:center; position:relative;
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--purple);
+  border-bottom: 2px solid var(--purple);
 }
-.epitaph::before,.epitaph::after {
-  content:'✦';
-  position:absolute; font-size:1.2rem; color:var(--purple-deeper);
+.epitaph::before,
+.epitaph::after {
+  content: '✦'; position: absolute;
+  left: 50%; transform: translateX(-50%);
+  font-size: 22px; color: var(--purple-deeper);
 }
-.epitaph::before { top:1rem; left:50%; transform:translateX(-50%); }
-.epitaph::after  { bottom:1rem; left:50%; transform:translateX(-50%); }
+.epitaph::before { top: 18px; }
+.epitaph::after  { bottom: 18px; }
 .epitaph-text {
-  font-family:'IM Fell English',serif; font-style:italic;
-  font-size:clamp(1rem,2.5vw,1.25rem); color:var(--text-sub); line-height:1.95;
+  font-family: 'IM Fell English', serif; font-style: italic;
+  font-size: clamp(18px, 2.5vw, 22px);
+  color: var(--text-sub); line-height: 2;
 }
-.epitaph-highlight { color:var(--purple-light); }
+.epitaph-highlight { color: var(--purple-light); }
 
-/* ── CLOSING ── */
+/* ═══════════════════════════════════════
+   CLOSING & FOOTER
+═══════════════════════════════════════ */
 .closing {
-  position:relative; z-index:3;
-  text-align:center; padding:8rem 2rem 12rem;
+  position: relative; z-index: 3;
+  text-align: center; padding: 144px 36px 216px;
 }
 .closing-icon {
-  font-size:4.5rem; display:block; margin-bottom:2rem;
-  animation:float 5s ease-in-out infinite;
-  filter:drop-shadow(0 0 30px rgba(206,126,215,0.4));
+  display: block; font-size: 72px; margin-bottom: 36px;
+  filter: drop-shadow(0 0 30px rgba(206,126,215,0.4));
+  animation: float 5s ease-in-out infinite;
 }
-@keyframes float { 0%,100%{transform:translateY(0) rotate(-2deg)} 50%{transform:translateY(-12px) rotate(2deg)} }
+@keyframes float {
+  0%, 100% { transform: translateY(0)    rotate(-2deg); }
+  50%       { transform: translateY(-12px) rotate( 2deg); }
+}
 .closing-quote {
-  font-family:'Cinzel Decorative',serif;
-  font-size:clamp(1.1rem,3.5vw,1.9rem); color:var(--purple-light);
-  margin-bottom:.9rem; line-height:1.45;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(20px, 3.5vw, 34px);
+  color: var(--purple-light); line-height: 1.45; margin-bottom: 16px;
 }
 .closing-sub {
-  font-family:'IM Fell English',serif; font-style:italic;
-  font-size:1.05rem; color:var(--text-muted);
+  font-family: 'IM Fell English', serif; font-style: italic;
+  font-size: 19px; color: var(--text-muted);
 }
 
-/* ── FOOTER ── */
 footer {
-  position:relative; z-index:3;
-  border-top:1px solid var(--border);
-  padding:2rem; text-align:center;
+  position: relative; z-index: 3;
+  padding: 36px; text-align: center;
+  border-top: 1px solid var(--border);
 }
 .footer-text {
-  font-family:'Cinzel',serif; font-size:.62rem; letter-spacing:.3em;
-  color:var(--text-muted); text-transform:uppercase; opacity:.65;
+  font-family: 'Cinzel', serif;
+  font-size: 11px; letter-spacing: .3em; text-transform: uppercase;
+  color: var(--text-muted); opacity: .65;
 }
 
-/* ── REVEAL ── */
-.reveal { opacity:0; transform:translateY(28px); transition:opacity .9s ease, transform .9s ease; }
-.reveal.visible { opacity:1; transform:translateY(0); }
+/* ═══════════════════════════════════════
+   ANIMAÇÃO DE ENTRADA (scroll)
+═══════════════════════════════════════ */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity .9s ease, transform .9s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
 
-/* ── RESPONSIVE ── */
-@media(max-width:700px) {
-  .nav-links { display:none; }
-  .audio-label { display:none; }
-  .lore-scroll { padding:2rem 1.5rem 2rem 2.5rem; }
-  .manifesto-box { padding:2rem 1.5rem; }
-  .epitaph { padding:2rem 1.5rem; }
+/* ═══════════════════════════════════════
+   RESPONSIVO — mobile
+═══════════════════════════════════════ */
+@media (max-width: 700px) {
+  .nav-links, .audio-label { display: none; }
+  .lore-scroll  { padding: 36px 27px 36px 45px; }
+  .epitaph      { padding: 36px 27px; }
+  .tribute-wall { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
 }
-</style>
+
+  </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ═══════ NAVEGAÇÃO ═══════ -->
 <nav id="nav">
   <a href="#hero" class="nav-logo">SPCP</a>
   <ul class="nav-links">
@@ -429,42 +462,36 @@ footer {
     <li><a href="#tripulacao">Tripulação</a></li>
     <li><a href="#legado">Legado</a></li>
   </ul>
-
-  <!-- AUDIO PLAYER -->
-  <div class="audio-player" id="audioPlayer">
+  <div class="audio-player">
     <button class="audio-btn" id="playBtn" title="Tocar/Pausar" aria-label="Tocar ou pausar música">▶</button>
     <span class="audio-label">♪ Trilha</span>
     <div class="volume-wrap">
       <span class="volume-icon">🔈</span>
       <input type="range" class="vol" id="volSlider" min="0" max="100" value="40" aria-label="Volume">
-      <span class="volume-icon" id="volHigh">🔊</span>
+      <span class="volume-icon">🔊</span>
     </div>
   </div>
 </nav>
 
-<!-- Elemento de áudio — adicione o src quando tiver o arquivo -->
+<!-- Áudio: descomente a linha <source> e troque pelo nome do seu arquivo .mp3 -->
 <audio id="bgAudio" loop preload="none">
   <!-- <source src="SUA_MUSICA.mp3" type="audio/mpeg"> -->
-  <!-- Para usar: coloque o arquivo .mp3 na mesma pasta e descomente a linha acima -->
 </audio>
 
-<!-- STARS / PARTÍCULAS ROXAS -->
+<!-- Efeitos de fundo -->
 <div class="stars" id="stars"></div>
-
-<!-- OCEAN (ondas violeta) -->
+<div class="vignette"></div>
 <div class="ocean">
   <div class="wave wave1"><svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,60 C150,100 350,0 600,60 C850,120 1050,20 1200,60 L1200,120 L0,120 Z" fill="rgba(107,46,116,0.4)"/></svg></div>
   <div class="wave wave2"><svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,40 C200,80 400,10 600,50 C800,90 1000,30 1200,40 L1200,120 L0,120 Z" fill="rgba(107,46,116,0.25)"/></svg></div>
   <div class="wave wave3"><svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,70 C100,90 300,50 600,70 C900,90 1100,50 1200,70 L1200,120 L0,120 Z" fill="rgba(107,46,116,0.12)"/></svg></div>
 </div>
 
-<!-- ══════════ HERO ══════════ -->
+<!-- ═══════ HERO ═══════ -->
 <section class="hero" id="hero">
   <div class="memorial-flame">🏴‍☠️</div>
-
   <h1 class="hero-sigla">SPCP</h1>
   <p class="hero-full-name">Surubão pros Chapéus de Palha</p>
-
   <div class="hero-candles">
     <div class="hero-divider-line"></div>
     <span class="candle">🕯️</span>
@@ -472,21 +499,18 @@ footer {
     <span class="candle">🕯️</span>
     <div class="hero-divider-line"></div>
   </div>
-
   <p class="hero-tagline">
     Uma comunidade que falava sobre One Piece, animes gerais, inúmeros jogos e muita putaria... tudo infelizmente tem seu fim.
   </p>
-
   <div class="rip-plaque">
     <p class="rip-text">Em memória &nbsp;·&nbsp; Para sempre nos mares da saudade</p>
   </div>
-
   <div class="scroll-cue">role para baixo ↓</div>
 </section>
 
 <div class="full-divider"><span class="full-divider-icon">🗺&nbsp;&nbsp;📜</span></div>
 
-<!-- ══════════ HISTÓRIA ══════════ -->
+<!-- ═══════ HISTÓRIA ═══════ -->
 <section class="section" id="historia">
   <div class="section-header reveal">
     <span class="section-label">A crônica</span>
@@ -511,90 +535,96 @@ footer {
 
 <div class="full-divider"><span class="full-divider-icon">📜&nbsp;&nbsp;✦</span></div>
 
-<!-- ══════════ TEORIAS ══════════ -->
+<!-- ═══════ MOMENTOS MARCANTES ═══════ -->
 <section class="section">
   <div class="section-header reveal">
     <span class="section-label">Os momentos</span>
     <h2 class="section-title">Momentos marcantes do SPCP</h2>
     <span class="section-rule"></span>
   </div>
-  <!-- =====================================================================
-       MOMENTOS MARCANTES — para editar cada card, localize o bloco abaixo:
-         <h3 class="theory-title">  → título do momento
-         <p  class="theory-body">   → descrição do momento
-         <span class="theory-tag">  → categoria: "serious" (roxo), "fun" (azul), "debate" (vermelho)
-       Para adicionar um novo card, copie um bloco <div class="theory-card"> e cole antes do </div> final.
-       Para remover, apague o bloco inteiro do <div class="theory-card"> até o </div>.
-       ===================================================================== -->
+
+  <!--
+    COMO EDITAR OS MOMENTOS:
+      <span class="theory-tag CATEGORIA">  → categoria visível no card
+        Valores de CATEGORIA: serious (roxo) | fun (azul) | debate (vermelho)
+      <h3 class="theory-title">            → título do momento
+      <p  class="theory-body">             → descrição do momento
+
+    Para ADICIONAR: copie um bloco <div class="theory-card"> e cole antes do </div> da .theory-grid
+    Para REMOVER:   apague o bloco inteiro do <div> até o </div>
+  -->
   <div class="theory-grid">
-    <div class="theory-card reveal"><span class="theory-tag serious">Séria</span><h3 class="theory-title">A Verdadeira Identidade do Im-sama</h3><p class="theory-body">Dez páginas de análise. Referências cruzadas. Linha do tempo impecável. Quase certa — mas One Piece nunca deixa estar.</p></div>
-    <div class="theory-card reveal"><span class="theory-tag fun">Brincadeira</span><h3 class="theory-title">Buggy D. Clown: O Rei dos Piratas Verdadeiro</h3><p class="theory-body">O que começou como piada foi ficando cada vez mais embasada. O próprio Oda deve ter nos lido.</p></div>
-    <div class="theory-card reveal"><span class="theory-tag debate">Debate</span><h3 class="theory-title">Sanji vs. Zoro: O Eterno Conflito</h3><p class="theory-body">Nunca houve consenso. Nunca haverá. E é exatamente por isso que o debate sobreviveu ao servidor.</p></div>
-    <div class="theory-card reveal"><span class="theory-tag serious">Séria</span><h3 class="theory-title">O Will of D. e o Vazio da História</h3><p class="theory-body">A que mais dividiu opiniões e gerou a maior thread da história do servidor. Linhas e linhas de lore real.</p></div>
-    <div class="theory-card reveal"><span class="theory-tag fun">Brincadeira</span><h3 class="theory-title">O Chapéu de Palha é o One Piece</h3><p class="theory-body">Simples. Elegante. Absurda. Defendida com uma seriedade que só o SPCP sabia fazer.</p></div>
-    <div class="theory-card reveal"><span class="theory-tag debate">Debate</span><h3 class="theory-title">O Fim Merecia o Hype?</h3><p class="theory-body">Quando chegamos ao grande arco final, o debate aqui foi mais intenso do que qualquer batalha do manga.</p></div>
+    <div class="theory-card reveal">
+      <span class="theory-tag serious">Séria</span>
+      <h3 class="theory-title">A Verdadeira Identidade do Im-sama</h3>
+      <p class="theory-body">Dez páginas de análise. Referências cruzadas. Linha do tempo impecável. Quase certa — mas One Piece nunca deixa estar.</p>
+    </div>
+    <div class="theory-card reveal">
+      <span class="theory-tag fun">Brincadeira</span>
+      <h3 class="theory-title">Buggy D. Clown: O Rei dos Piratas Verdadeiro</h3>
+      <p class="theory-body">O que começou como piada foi ficando cada vez mais embasada. O próprio Oda deve ter nos lido.</p>
+    </div>
+    <div class="theory-card reveal">
+      <span class="theory-tag debate">Debate</span>
+      <h3 class="theory-title">Sanji vs. Zoro: O Eterno Conflito</h3>
+      <p class="theory-body">Nunca houve consenso. Nunca haverá. E é exatamente por isso que o debate sobreviveu ao servidor.</p>
+    </div>
+    <div class="theory-card reveal">
+      <span class="theory-tag serious">Séria</span>
+      <h3 class="theory-title">O Will of D. e o Vazio da História</h3>
+      <p class="theory-body">A que mais dividiu opiniões e gerou a maior thread da história do servidor. Linhas e linhas de lore real.</p>
+    </div>
+    <div class="theory-card reveal">
+      <span class="theory-tag fun">Brincadeira</span>
+      <h3 class="theory-title">O Chapéu de Palha é o One Piece</h3>
+      <p class="theory-body">Simples. Elegante. Absurda. Defendida com uma seriedade que só o SPCP sabia fazer.</p>
+    </div>
+    <div class="theory-card reveal">
+      <span class="theory-tag debate">Debate</span>
+      <h3 class="theory-title">O Fim Merecia o Hype?</h3>
+      <p class="theory-body">Quando chegamos ao grande arco final, o debate aqui foi mais intenso do que qualquer batalha do manga.</p>
+    </div>
   </div>
 </section>
 
 <div class="full-divider"><span class="full-divider-icon">👥&nbsp;&nbsp;⚓</span></div>
 
-<!-- ══════════ TRIPULAÇÃO ══════════ -->
+<!-- ═══════ TRIPULAÇÃO ═══════ -->
 <section class="section" id="tripulacao">
   <div class="section-header reveal">
     <span class="section-label">Os piratas</span>
     <h2 class="section-title">A Tripulação do SPCP</h2>
     <span class="section-rule"></span>
   </div>
-  <!-- =====================================================================
-       TRIPULAÇÃO — como editar:
 
-       Cada membro tem um bloco <div class="tribute-member"> com três atributos:
-         data-ini  = iniciais exibidas quando NÃO há imagem (ex: "AB")
-         data-name = nome completo do membro
-         data-role = descrição / papel na comunidade
-         data-img  = URL da foto (deixe vazio "" para usar as iniciais)
+  <!--
+    COMO EDITAR A TRIPULAÇÃO:
+      data-ini  → iniciais exibidas quando NÃO há foto (ex: "AB")
+      data-name → nome do membro
+      data-role → descrição / papel na comunidade
+      data-img  → caminho da foto (ex: "imagens/fulano.jpg") — deixe "" para usar as iniciais
 
-       Exemplo COM imagem:
-         <div class="tribute-member"
-              data-ini="AB"
-              data-name="Alguém Bacana"
-              data-role="Nossa Nami · Sempre certa"
-              data-img="https://i.imgur.com/exemplo.jpg">
-         </div>
-
-       Exemplo SEM imagem (usa iniciais):
-         <div class="tribute-member"
-              data-ini="AB"
-              data-name="Alguém Bacana"
-              data-role="Nossa Nami · Sempre certa"
-              data-img="">
-         </div>
-
-       Para ADICIONAR um membro: copie qualquer bloco acima e cole antes do </div> final.
-       Para REMOVER: apague o bloco inteiro do <div class="tribute-member"> até o </div>.
-       ===================================================================== -->
+    Para ADICIONAR: copie qualquer bloco <div class="tribute-member"> e cole antes do </div> do #crewWall
+    Para REMOVER:   apague o bloco inteiro
+  -->
   <div class="tribute-wall reveal" id="crewWall">
-    <div class="tribute-member" data-ini="C"  data-name="Surtur"         data-role="O último membro, incancelável e defensor dos bons costumes monogâmicos."                   data-img="imagens/surtur.jpg"></div>
-    <div class="tribute-member" data-ini="J" data-name="Jennie"     data-role="Nosso Nico Robin"                           data-img=""></div>
-    <div class="tribute-member" data-ini="H"  data-name="Hancock"     data-role="Nosso Zoro · Calmo até demais"              data-img=""></div>
-    <div class="tribute-member" data-ini="V" data-name="Vicky"     data-role="Nossa Nami · Sempre certa"                  data-img=""></div>
-    <div class="tribute-member" data-ini="K" data-name="Kevyn"  data-role="Nosso Sanji · Estilo acima de tudo"         data-img=""></div>
-    <div class="tribute-member" data-ini="C" data-name="Clary" data-role="Nosso Chopper · Surpresa constante"         data-img=""></div>
-    <div class="tribute-member" data-ini="S"  data-name="Snow"   data-role="Nosso Brook · Sempre lá, nem sempre visível" data-img=""></div>
-    <div class="tribute-member" data-ini="K"  data-name="Kuraitto" data-role="Cada membro que passou por aqui"          data-img=""></div>
-    <div class="tribute-member" data-ini="J"  data-name="Jean" data-role="Cada membro que passou por aqui"          data-img=""></div>
+    <div class="tribute-member" data-ini="C" data-name="Surtur"    data-role="O último membro, incancelável e defensor dos bons costumes monogâmicos." data-img="imagens/surtur.jpg"></div>
+    <div class="tribute-member" data-ini="J" data-name="Jennie"    data-role="Nosso Nico Robin"                        data-img=""></div>
+    <div class="tribute-member" data-ini="H" data-name="Hancock"   data-role="Nosso Zoro · Calmo até demais"           data-img=""></div>
+    <div class="tribute-member" data-ini="V" data-name="Vicky"     data-role="Nossa Nami · Sempre certa"               data-img=""></div>
+    <div class="tribute-member" data-ini="K" data-name="Kevyn"     data-role="Nosso Sanji · Estilo acima de tudo"      data-img=""></div>
+    <div class="tribute-member" data-ini="C" data-name="Clary"     data-role="Nosso Chopper · Surpresa constante"      data-img=""></div>
+    <div class="tribute-member" data-ini="S" data-name="Snow"      data-role="Nosso Brook · Sempre lá, nem sempre visível" data-img=""></div>
+    <div class="tribute-member" data-ini="K" data-name="Kuraitto"  data-role="Cada membro que passou por aqui"         data-img=""></div>
+    <div class="tribute-member" data-ini="J" data-name="Jean"      data-role="Cada membro que passou por aqui"         data-img=""></div>
   </div>
 
-
-
-  <p class="reveal" style="text-align:center;margin-top:2rem;font-family:'IM Fell English',serif;font-style:italic;color:var(--text-muted);font-size:.95rem;">
-    Os nomes são seus — os apelidos, nossos. Vocês sabem quem são.
-  </p>
+  <p class="crew-note reveal">Os nomes são seus — os apelidos, nossos. Vocês sabem quem são.</p>
 </section>
 
 <div class="full-divider"><span class="full-divider-icon">✦&nbsp;&nbsp;⭐&nbsp;&nbsp;✦</span></div>
 
-<!-- ══════════ LEGADO ══════════ -->
+<!-- ═══════ LEGADO ═══════ -->
 <section class="section" id="legado">
   <div class="section-header reveal">
     <span class="section-label">O que fica</span>
@@ -612,7 +642,7 @@ footer {
   </div>
 </section>
 
-<!-- ══════════ CLOSING ══════════ -->
+<!-- ═══════ CLOSING ═══════ -->
 <div class="closing">
   <span class="closing-icon">🕯️</span>
   <h2 class="closing-quote">Viemos fazendo graça, fomos também fazendo graça</h2>
@@ -624,89 +654,80 @@ footer {
 </footer>
 
 <script>
-// ── TRIPULAÇÃO — renderiza avatares com imagem ou iniciais ──
+/* ═══════════════════════════════════════
+   TRIPULAÇÃO — renderiza avatares
+═══════════════════════════════════════ */
 document.querySelectorAll('#crewWall .tribute-member').forEach(el => {
-  const ini  = el.dataset.ini  || '?';
-  const name = el.dataset.name || '';
-  const role = el.dataset.role || '';
-  const img  = el.dataset.img  || '';
-
+  const { ini = '?', name = '', role = '', img = '' } = el.dataset;
   const avatar = img
-    ? `<div class="member-avatar"><img src="${img}" alt="${name}" onerror="this.parentElement.innerHTML='${ini}'"></div>`
+    ? `<div class="member-avatar"><img src="${img}" alt="${name}" onerror="this.parentElement.textContent='${ini}'"></div>`
     : `<div class="member-avatar">${ini}</div>`;
-
   el.innerHTML = `${avatar}<p class="member-name">${name}</p><p class="member-role">${role}</p>`;
 });
 
-// ── STARS roxas ──
-const st = document.getElementById('stars');
+/* ═══════════════════════════════════════
+   ESTRELAS
+═══════════════════════════════════════ */
+const fragment = document.createDocumentFragment();
 for (let i = 0; i < 200; i++) {
-  const s = document.createElement('div');
+  const s   = document.createElement('div');
+  const sz  = (Math.random() * 2.2 + 0.4).toFixed(1);
+  const mn  = (Math.random() * 0.25 + 0.04).toFixed(2);
+  const mx  = (parseFloat(mn) + Math.random() * 0.55 + 0.08).toFixed(2);
+  const cor = Math.random() > 0.55 ? 'rgba(206,126,215,1)' : 'rgba(240,228,242,1)';
   s.className = 'star';
-  const sz = Math.random() * 2.2 + 0.4;
-  const mn = (Math.random() * 0.25 + 0.04).toFixed(2);
-  const mx = (parseFloat(mn) + Math.random() * 0.55 + 0.08).toFixed(2);
-  // mistura entre branco e roxo para as estrelas
-  const isRoxa = Math.random() > 0.55;
-  const cor = isRoxa ? `rgba(206,126,215,1)` : `rgba(240,228,242,1)`;
-  s.style.cssText = `
-    width:${sz}px;height:${sz}px;
-    top:${Math.random()*100}%;left:${Math.random()*100}%;
-    background:${cor};
-    --d:${(Math.random()*6+2).toFixed(1)}s;
-    --min-o:${mn};--max-o:${mx};
-    animation-delay:${(Math.random()*7).toFixed(1)}s;
-  `;
-  st.appendChild(s);
+  s.style.cssText = `width:${sz}px;height:${sz}px;top:${(Math.random()*100).toFixed(1)}%;left:${(Math.random()*100).toFixed(1)}%;background:${cor};--d:${(Math.random()*6+2).toFixed(1)}s;--min-o:${mn};--max-o:${mx};animation-delay:${(Math.random()*7).toFixed(1)}s`;
+  fragment.appendChild(s);
 }
+document.getElementById('stars').appendChild(fragment);
 
-// ── NAV scroll ──
+/* ═══════════════════════════════════════
+   NAV — sombra ao rolar
+═══════════════════════════════════════ */
 const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60), { passive: true });
 
-// ── REVEAL ──
-const io = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+/* ═══════════════════════════════════════
+   REVEAL — animação de entrada
+═══════════════════════════════════════ */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
 }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-// ── AUDIO PLAYER ──
-const audio    = document.getElementById('bgAudio');
-const playBtn  = document.getElementById('playBtn');
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ═══════════════════════════════════════
+   PLAYER DE ÁUDIO
+═══════════════════════════════════════ */
+const audio     = document.getElementById('bgAudio');
+const playBtn   = document.getElementById('playBtn');
 const volSlider = document.getElementById('volSlider');
-let playing = false;
 
-// atualiza visual do slider de volume
-function updateSlider() {
-  const pct = volSlider.value + '%';
-  volSlider.style.setProperty('--pct', pct);
+function updateVolume() {
   audio.volume = volSlider.value / 100;
+  volSlider.style.setProperty('--pct', volSlider.value + '%');
 }
-updateSlider();
+updateVolume();
 
 playBtn.addEventListener('click', () => {
-  // Se não há src configurado, mostra aviso
-  if (!audio.src || audio.src === window.location.href) {
+  const hasSource = audio.querySelector('source');
+  if (!hasSource) {
     playBtn.textContent = '⚠';
-    setTimeout(() => playBtn.textContent = '▶', 2000);
+    setTimeout(() => { playBtn.textContent = '▶'; }, 2000);
     return;
   }
-  if (playing) {
+  if (audio.paused) {
+    audio.play().then(() => { playBtn.textContent = '⏸'; }).catch(() => {
+      playBtn.textContent = '⚠';
+      setTimeout(() => { playBtn.textContent = '▶'; }, 2000);
+    });
+  } else {
     audio.pause();
     playBtn.textContent = '▶';
-    playing = false;
-  } else {
-    audio.play().then(() => {
-      playBtn.textContent = '⏸';
-      playing = true;
-    }).catch(() => {
-      playBtn.textContent = '⚠';
-      setTimeout(() => playBtn.textContent = '▶', 2000);
-    });
   }
 });
 
-volSlider.addEventListener('input', updateSlider);
+volSlider.addEventListener('input', updateVolume);
 </script>
 </body>
 </html>
