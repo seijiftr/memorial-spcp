@@ -325,6 +325,99 @@ input[type="range"].vol::-webkit-slider-thumb {
 /* ═══════════════════════════════════════
    TRIPULAÇÃO
 ═══════════════════════════════════════ */
+
+/* Label de grupo (ADMs / Membros) */
+.crew-group { margin-bottom: 48px; }
+.crew-group:last-child { margin-bottom: 0; }
+.crew-group-label {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 20px;
+}
+.crew-group-label span {
+  font-family: 'Cinzel', serif; font-size: 11px;
+  letter-spacing: .45em; text-transform: uppercase;
+  color: var(--purple-dark); white-space: nowrap;
+}
+.crew-group-label::before,
+.crew-group-label::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(to right, transparent, var(--purple-deeper));
+}
+.crew-group-label::after {
+  background: linear-gradient(to left, transparent, var(--purple-deeper));
+}
+
+/* Cursor pointer nos cards clicáveis */
+.tribute-member { cursor: pointer; }
+.tribute-member:focus-visible { outline: 2px solid var(--purple); outline-offset: 2px; }
+
+/* ── DRAWER — painel deslizante de baixo ── */
+.member-drawer {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 300;
+  background: var(--bg-surface);
+  border-top: 2px solid var(--purple);
+  padding: 0 36px 48px;
+  transform: translateY(100%);
+  transition: transform .4s cubic-bezier(.32,.72,0,1);
+  max-height: 85vh; overflow-y: auto;
+}
+.member-drawer.open { transform: translateY(0); }
+
+.drawer-handle {
+  display: flex; justify-content: center; padding: 14px 0 20px;
+  cursor: pointer;
+}
+.drawer-handle::before {
+  content: ''; width: 40px; height: 4px;
+  background: var(--purple-deeper); border-radius: 2px;
+}
+.drawer-inner {
+  max-width: 600px; margin: 0 auto;
+  display: flex; gap: 36px; align-items: flex-start;
+}
+.drawer-avatar {
+  width: 120px; height: 120px; flex-shrink: 0; border-radius: 50%;
+  background: var(--bg-mid); border: 3px solid var(--purple-deeper);
+  box-shadow: 0 0 30px rgba(206,126,215,0.25);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cinzel', serif; font-size: 34px; color: var(--purple-light);
+  overflow: hidden;
+}
+.drawer-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.drawer-info { flex: 1; padding-top: 8px; }
+.drawer-name {
+  font-family: 'Cinzel', serif; font-size: 22px;
+  color: var(--purple-light); margin-bottom: 6px; letter-spacing: .08em;
+}
+.drawer-role {
+  font-family: 'Cinzel', serif; font-size: 11px;
+  letter-spacing: .35em; text-transform: uppercase;
+  color: var(--purple-dark); margin-bottom: 18px;
+}
+.drawer-bio {
+  font-family: 'IM Fell English', serif; font-style: italic;
+  font-size: 18px; color: var(--text-sub); line-height: 1.8;
+}
+.drawer-close {
+  position: absolute; top: 16px; right: 24px;
+  background: none; border: none; cursor: pointer;
+  color: var(--text-muted); font-size: 20px; line-height: 1;
+  transition: color .2s;
+}
+.drawer-close:hover { color: var(--purple-light); }
+.drawer-overlay {
+  position: fixed; inset: 0; z-index: 299;
+  background: rgba(14,8,15,0.6); backdrop-filter: blur(3px);
+  opacity: 0; pointer-events: none;
+  transition: opacity .4s;
+}
+.drawer-overlay.open { opacity: 1; pointer-events: all; }
+
+@media (max-width: 600px) {
+  .drawer-inner { flex-direction: column; align-items: center; text-align: center; }
+  .drawer-avatar { width: 90px; height: 90px; font-size: 26px; }
+  .member-drawer { padding: 0 20px 40px; }
+}
 .tribute-wall {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -475,7 +568,7 @@ footer {
 
 <!-- Áudio: descomente a linha <source> e troque pelo nome do seu arquivo .mp3 -->
 <audio id="bgAudio" loop preload="none">
-  <source src="audio/espera-eu-chegar.mp3" type="audio/mpeg">
+  <!-- <source src="SUA_MUSICA.mp3" type="audio/mpeg"> -->
 </audio>
 
 <!-- Efeitos de fundo -->
@@ -599,27 +692,56 @@ footer {
 
   <!--
     COMO EDITAR A TRIPULAÇÃO:
-      data-ini  → iniciais exibidas quando NÃO há foto (ex: "AB")
+      data-ini  → iniciais quando NÃO há foto (ex: "AB")
       data-name → nome do membro
-      data-role → descrição / papel na comunidade
-      data-img  → caminho da foto (ex: "imagens/fulano.jpg") — deixe "" para usar as iniciais
+      data-role → cargo / papel (aparece pequeno no card e no drawer)
+      data-bio  → descrição longa (aparece ao clicar no membro)
+      data-img  → caminho da foto (ex: "imagens/fulano.jpg") — deixe "" para iniciais
 
-    Para ADICIONAR: copie qualquer bloco <div class="tribute-member"> e cole antes do </div> do #crewWall
-    Para REMOVER:   apague o bloco inteiro
+    Há dois grupos: #admWall (ADMs) e #crewWall (Membros).
+    Para ADICIONAR: copie um bloco <div class="tribute-member"> e cole no grupo desejado.
+    Para REMOVER:   apague o bloco inteiro.
   -->
-  <div class="tribute-wall reveal" id="crewWall">
-    <div class="tribute-member" data-ini="C" data-name="Surtur"    data-role="O último membro, incancelável e defensor dos bons costumes monogâmicos." data-img="imagens/surtur.jpg"></div>
-    <div class="tribute-member" data-ini="J" data-name="Jennie"    data-role="Nosso Nico Robin"                        data-img=""></div>
-    <div class="tribute-member" data-ini="H" data-name="Hancock"   data-role="Nosso Zoro · Calmo até demais"           data-img=""></div>
-    <div class="tribute-member" data-ini="V" data-name="Vicky"     data-role="Nossa Nami · Sempre certa"               data-img=""></div>
-    <div class="tribute-member" data-ini="K" data-name="Kevyn"     data-role="Nosso Sanji · Estilo acima de tudo"      data-img=""></div>
-    <div class="tribute-member" data-ini="C" data-name="Clary"     data-role="Nosso Chopper · Surpresa constante"      data-img=""></div>
-    <div class="tribute-member" data-ini="S" data-name="Snow"      data-role="Nosso Brook · Sempre lá, nem sempre visível" data-img=""></div>
-    <div class="tribute-member" data-ini="K" data-name="Kuraitto"  data-role="Cada membro que passou por aqui"         data-img=""></div>
-    <div class="tribute-member" data-ini="J" data-name="Jean"      data-role="Cada membro que passou por aqui"         data-img=""></div>
+
+  <!-- GRUPO ADMs -->
+  <div class="crew-group reveal">
+    <div class="crew-group-label"><span>⚜ Administração</span></div>
+    <div class="tribute-wall" id="admWall">
+      <div class="tribute-member" data-ini="C" data-name="Surtur"  data-role="Fundador · ADM" data-bio="O último membro, incancelável e defensor dos bons costumes monogâmicos." data-img="imagens/surtur.jpg"></div>
+      <div class="tribute-member" data-ini="J" data-name="Jennie"  data-role="ADM" data-bio="Nosso Nico Robin — a que sabe de tudo e não conta." data-img=""></div>
+    </div>
+  </div>
+
+  <!-- GRUPO MEMBROS -->
+  <div class="crew-group reveal">
+    <div class="crew-group-label"><span>⚓ Tripulação</span></div>
+    <div class="tribute-wall" id="crewWall">
+      <div class="tribute-member" data-ini="H" data-name="Hancock"  data-role="Membro" data-bio="Nosso Zoro — calmo até demais, mas estava sempre lá quando importava." data-img=""></div>
+      <div class="tribute-member" data-ini="V" data-name="Vicky"    data-role="Membro" data-bio="Nossa Nami — sempre certa, mesmo quando ninguém queria ouvir." data-img=""></div>
+      <div class="tribute-member" data-ini="K" data-name="Kevyn"    data-role="Membro" data-bio="Nosso Sanji — estilo acima de tudo, opinião acima de todos." data-img=""></div>
+      <div class="tribute-member" data-ini="C" data-name="Clary"    data-role="Membro" data-bio="Nosso Chopper — surpresa constante, boa surpresa sempre." data-img=""></div>
+      <div class="tribute-member" data-ini="S" data-name="Snow"     data-role="Membro" data-bio="Nosso Brook — sempre lá, nem sempre visível, mas nunca esquecido." data-img=""></div>
+      <div class="tribute-member" data-ini="K" data-name="Kuraitto" data-role="Membro" data-bio="Cada membro que passou por aqui deixou a sua marca no navio." data-img=""></div>
+      <div class="tribute-member" data-ini="J" data-name="Jean"     data-role="Membro" data-bio="Cada membro que passou por aqui deixou a sua marca no navio." data-img=""></div>
+    </div>
   </div>
 
   <p class="crew-note reveal">Os nomes são seus — os apelidos, nossos. Vocês sabem quem são.</p>
+
+  <!-- DRAWER — abre ao clicar em um membro -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <div class="member-drawer" id="memberDrawer">
+    <div class="drawer-handle" id="drawerHandle"></div>
+    <button class="drawer-close" id="drawerClose" aria-label="Fechar">✕</button>
+    <div class="drawer-inner">
+      <div class="drawer-avatar" id="drawerAvatar"></div>
+      <div class="drawer-info">
+        <p class="drawer-name" id="drawerName"></p>
+        <p class="drawer-role" id="drawerRole"></p>
+        <p class="drawer-bio"  id="drawerBio"></p>
+      </div>
+    </div>
+  </div>
 </section>
 
 <div class="full-divider"><span class="full-divider-icon">✦&nbsp;&nbsp;⭐&nbsp;&nbsp;✦</span></div>
@@ -655,15 +777,64 @@ footer {
 
 <script>
 /* ═══════════════════════════════════════
-   TRIPULAÇÃO — renderiza avatares
+   TRIPULAÇÃO — renderiza avatares + drawer
 ═══════════════════════════════════════ */
-document.querySelectorAll('#crewWall .tribute-member').forEach(el => {
-  const { ini = '?', name = '', role = '', img = '' } = el.dataset;
-  const avatar = img
-    ? `<div class="member-avatar"><img src="${img}" alt="${name}" onerror="this.parentElement.textContent='${ini}'"></div>`
-    : `<div class="member-avatar">${ini}</div>`;
-  el.innerHTML = `${avatar}<p class="member-name">${name}</p><p class="member-role">${role}</p>`;
+function makeAvatar(img, name, ini, cls = 'member-avatar') {
+  const wrap = document.createElement('div');
+  wrap.className = cls;
+  if (img) {
+    const image = document.createElement('img');
+    image.src = img; image.alt = name;
+    image.onerror = () => { wrap.textContent = ini; };
+    wrap.appendChild(image);
+  } else {
+    wrap.textContent = ini;
+  }
+  return wrap;
+}
+
+document.querySelectorAll('.tribute-member').forEach(el => {
+  const { ini = '?', name = '', role = '', bio = '', img = '' } = el.dataset;
+  el.appendChild(makeAvatar(img, name, ini));
+  const pName = document.createElement('p'); pName.className = 'member-name'; pName.textContent = name;
+  const pRole = document.createElement('p'); pRole.className = 'member-role'; pRole.textContent = role;
+  el.appendChild(pName);
+  el.appendChild(pRole);
+  el.setAttribute('tabindex', '0');
+  el.setAttribute('role', 'button');
+  el.setAttribute('aria-label', `Ver perfil de ${name}`);
+
+  function openDrawer() {
+    // avatar
+    const da = document.getElementById('drawerAvatar');
+    da.innerHTML = '';
+    da.appendChild(makeAvatar(img, name, ini, ''));
+    da.style.cssText = img ? '' : '';
+    if (!img) da.textContent = ini;
+
+    document.getElementById('drawerName').textContent = name;
+    document.getElementById('drawerRole').textContent = role;
+    document.getElementById('drawerBio').textContent  = bio || role;
+
+    document.getElementById('memberDrawer').classList.add('open');
+    document.getElementById('drawerOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  el.addEventListener('click', openDrawer);
+  el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openDrawer(); });
 });
+
+function closeDrawer() {
+  document.getElementById('memberDrawer').classList.remove('open');
+  document.getElementById('drawerOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+document.getElementById('drawerOverlay').addEventListener('click', closeDrawer);
+document.getElementById('drawerHandle').addEventListener('click', closeDrawer);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
 
 /* ═══════════════════════════════════════
    ESTRELAS
