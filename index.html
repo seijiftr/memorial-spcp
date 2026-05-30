@@ -60,6 +60,11 @@ section[id] { scroll-margin-top: 72px; }
   50%       { opacity: var(--max-o); transform: scale(1.5); }
 }
 
+@keyframes float {
+  0%, 100% { transform: translateY(0)    rotate(-2deg); }
+  50%       { transform: translateY(-12px) rotate( 2deg); }
+}
+
 /* Vinheta escurecendo as bordas */
 .vignette {
   position: fixed; inset: 0; z-index: 1; pointer-events: none;
@@ -82,9 +87,15 @@ section[id] { scroll-margin-top: 72px; }
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 200;
   padding: 16px 45px;
-  display: flex; align-items: center; justify-content: space-between;
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
   background: linear-gradient(to bottom, rgba(14,8,15,.97), transparent);
   transition: background .4s;
+}
+nav .nav-links {
+  justify-self: center;
+}
+nav .audio-player {
+  justify-self: end;
 }
 nav.scrolled {
   background: rgba(14,8,15,.97);
@@ -210,15 +221,17 @@ input[type="range"].vol::-webkit-slider-thumb {
   color: var(--purple-muted);
 }
 .scroll-cue {
-  position: absolute; bottom: 45px; left: 50%; transform: translateX(-50%);
+  position: absolute; bottom: 45px;
+  left: 0; right: 0; margin: 0 auto;
+  width: fit-content;
   font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: .3em; text-transform: uppercase;
   color: var(--purple-dark);
   animation: bounce 2.2s ease-in-out infinite, fadeDown 2s ease 2s both;
 }
 
 @keyframes bounce {
-  0%, 100% { transform: translateX(-50%) translateY(0);  }
-  50%       { transform: translateX(-50%) translateY(7px); }
+  0%, 100% { transform: translateY(0);  }
+  50%       { transform: translateY(7px); }
 }
 @keyframes fadeDown {
   from { opacity: 0; transform: translateY(-18px); }
@@ -502,10 +515,7 @@ input[type="range"].vol::-webkit-slider-thumb {
   filter: drop-shadow(0 0 30px rgba(206,126,215,0.4));
   animation: float 5s ease-in-out infinite;
 }
-@keyframes float {
-  0%, 100% { transform: translateY(0)    rotate(-2deg); }
-  50%       { transform: translateY(-12px) rotate( 2deg); }
-}
+
 .closing-quote {
   font-family: 'Cinzel Decorative', serif;
   font-size: clamp(20px, 3.5vw, 34px);
@@ -1019,14 +1029,18 @@ volSlider.addEventListener('input', updateVolume);
 const gate    = document.getElementById('gate');
 const gateBtn = document.getElementById('gateBtn');
 
+// Bloqueia scroll do body enquanto gate está visível
+document.body.style.overflow = 'hidden';
+
 gateBtn.addEventListener('click', () => {
-  // O clique do usuário garante permissão do navegador para tocar áudio
+  // O clique garante permissão do navegador para tocar áudio
   startMusic();
 
-  // Fade out suave da tela de entrada
+  // Libera scroll e inicia fade out
+  document.body.style.overflow = '';
   gate.classList.add('fade-out');
 
-  // Remove do DOM após a transição terminar (economiza memória)
+  // Remove do DOM após a transição terminar
   gate.addEventListener('transitionend', () => gate.remove(), { once: true });
 });
 </script>
